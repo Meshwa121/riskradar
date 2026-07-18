@@ -1,0 +1,8 @@
+backend/.env
+backend/__pycache__/
+backend/venv/
+backend/chroma_db/
+frontend/node_modules/
+frontend/build/
+*.pyc
+*.pyo
