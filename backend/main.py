@@ -1,4 +1,5 @@
 import os
+import time
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -25,6 +26,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Weather cache — 15 minute TTL
+weather_cache = {
+    "data": None,
+    "timestamp": 0
+}
+CACHE_DURATION = 900  # 15 minutes in seconds
 
 # ─────────────────────────────────────────────
 # Request/Response Models
@@ -92,28 +100,40 @@ async def get_risks():
 @app.get("/weather")
 async def get_weather():
     try:
-        print("Checking weather at all monitored locations...")
-        summary, risk_alerts = get_weather_summary()
-        
-        # Also get all locations for full page view
-        from weather_monitor import monitor_all_ports
-        all_results, _ = monitor_all_ports()
+        global weather_cache
 
-        return {
-            "summary": {**summary, "all_locations": all_results},
+        # Return cached data if still fresh
+        if weather_cache["data"] and (time.time() - weather_cache["timestamp"]) < CACHE_DURATION:
+            print("Returning cached weather data")
+            return weather_cache["data"]
+
+        # Fetch fresh data
+        print("Fetching fresh weather data...")
+        from weather_monitor import monitor_all_ports
+        all_results, risk_alerts = monitor_all_ports()
+
+        result = {
+            "summary": {
+                "total_monitored": len(all_results),
+                "risk_locations": len(risk_alerts),
+                "all_locations": all_results
+            },
             "alerts": risk_alerts
         }
 
+        # Store in cache
+        weather_cache["data"] = result
+        weather_cache["timestamp"] = time.time()
+
+        return result
+
     except Exception as e:
+        print(f"Error in /weather endpoint: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/shipment")
 async def analyze_shipment(request: ShipmentRequest):
-    """
-    Analyzes risks for a specific shipment route
-    Returns delay estimate and risk advisory
-    """
     try:
         print(f"Analyzing shipment: {request.origin} → {request.destination}")
         result = track_shipment(
@@ -121,7 +141,6 @@ async def analyze_shipment(request: ShipmentRequest):
             request.destination,
             request.expected_delivery
         )
-
         return result
 
     except Exception as e:
@@ -130,9 +149,6 @@ async def analyze_shipment(request: ShipmentRequest):
 
 @app.get("/routes")
 async def get_routes():
-    """
-    Returns list of all monitored shipping routes
-    """
     from shipment_tracker import SHIPPING_ROUTES
     return {
         "routes": [
@@ -149,9 +165,6 @@ async def get_routes():
 
 @app.get("/locations")
 async def get_locations():
-    """
-    Returns all 30 monitored port and chokepoint locations
-    """
     from weather_monitor import MONITORED_LOCATIONS
     return {
         "total": len(MONITORED_LOCATIONS),
