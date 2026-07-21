@@ -346,19 +346,19 @@ Risk Dashboard
 
 ## 💡 Key Technical Decisions
 
-**Why 2 nodes instead of 5?** 
+**Why 2 nodes instead of 5?** <br>
 Originally built with 5 separate LangGraph nodes — each making an individual Gemini API call. Consolidated into 2 nodes reducing API usage by 60% while maintaining the same output quality.
 
-**Why ChromaDB over Pinecone?**
+**Why ChromaDB over Pinecone?** <br>
 ChromaDB runs locally with zero setup — ideal for development and placement demos. In production I'd migrate to Pinecone for cloud-native vector storage and horizontal scaling.
 
-**Why proactive weather monitoring?**
+**Why proactive weather monitoring?** <br>
 News-based systems are reactive — they detect disruptions only after articles are published. WeatherAPI lets RiskRadar flag developing storms at ports before any news article exists, giving supply chain managers earlier warning.
 
-**Why cache weather data?**
+**Why cache weather data?** <br>
 Weather doesn't change every second. A 15-minute server-side cache eliminates 30 redundant WeatherAPI calls per request. In production this would use Redis for persistence across server restarts.
 
-**Why separate loading states?**
+**Why separate loading states?** <br>
 Originally used a single loading state for both news and weather. This caused weather alerts to disappear every time Scan News was clicked. Separated into two independent states so weather remains visible during news scanning.
 
 ---
