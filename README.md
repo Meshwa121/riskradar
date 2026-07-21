@@ -20,9 +20,9 @@ RiskRadar is designed to identify emerging disruptions from early news reports a
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-## 📰 Live News Intelligence
+### 📰 Live News Intelligence
 
 - Fetches real-time global news using **NewsAPI**
 - Processes every article through a **2-node LangGraph pipeline**
@@ -38,7 +38,7 @@ RiskRadar is designed to identify emerging disruptions from early news reports a
 
 ---
 
-## 🌦 Weather Risk Monitoring
+### 🌦 Weather Risk Monitoring
 
 Continuously monitors weather conditions across **30 major ports and maritime chokepoints**, including:
 
@@ -67,7 +67,7 @@ Provides **3-day weather forecasts** to identify risks before they impact shippi
 
 ---
 
-## 🚚 Shipment Risk Advisory
+### 🚚 Shipment Risk Advisory
 
 Users enter:
 
@@ -86,7 +86,7 @@ RiskRadar automatically:
 
 ---
 
-## 🧠 Retrieval-Augmented Generation (RAG)
+### 🧠 Retrieval-Augmented Generation (RAG)
 
 RiskRadar uses **ChromaDB** as a vector database to retrieve historical supply chain disruptions before generating responses.
 
@@ -110,7 +110,7 @@ This enables the AI to generate responses grounded in historical events rather t
 
 ---
 
-# 🤖 Agent Workflow
+## 🤖 Agent Workflow
 
 ```text
 News Article
@@ -129,7 +129,7 @@ Generate Risk Alert
 ```
 ---
 
-# ⚙ Tech Stack
+## ⚙ Tech Stack
 
 | Layer | Technology |
 |---------|------------|
@@ -145,7 +145,7 @@ Generate Risk Alert
 
 ---
 
-# 🏗 System Architecture
+## 🏗 System Architecture
 
 ```mermaid
 flowchart LR
@@ -181,7 +181,7 @@ flowchart LR
 ```
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```text
 supply-chain-risk-detector/
@@ -210,9 +210,9 @@ supply-chain-risk-detector/
 
 ---
 
-# 🚀 Getting Started
+## 🚀 Getting Started
 
-## Prerequisites
+### Prerequisites
 
 - Python 3.10+
 - Node.js 18+
@@ -222,7 +222,7 @@ supply-chain-risk-detector/
 
 ---
 
-## Backend Setup
+### Backend Setup
 
 ```bash
 cd backend
@@ -288,7 +288,7 @@ http://127.0.0.1:8000
 
 ---
 
-## Frontend Setup
+### Frontend Setup
 
 ```bash
 cd frontend
@@ -306,7 +306,7 @@ http://localhost:3000
 
 ---
 
-# 📡 API Endpoints
+## 📡 API Endpoints
 
 | Method | Endpoint | Description |
 |----------|----------|-------------|
@@ -320,7 +320,7 @@ http://localhost:3000
 
 ---
 
-# 🔄 Workflow
+## 🔄 Workflow
 
 ```text
 Live News + Weather
@@ -344,9 +344,9 @@ Shipment Delay Estimation
 Risk Dashboard
 ```
 
-# 💡 Key Technical Decisions
+## 💡 Key Technical Decisions
 
-**Why 2 nodes instead of 5?**
+**Why 2 nodes instead of 5?** 
 Originally built with 5 separate LangGraph nodes — each making an individual Gemini API call. Consolidated into 2 nodes reducing API usage by 60% while maintaining the same output quality.
 
 **Why ChromaDB over Pinecone?**
@@ -363,7 +363,7 @@ Originally used a single loading state for both news and weather. This caused we
 
 ---
 
-# 🎯 Future Improvements
+## 🎯 Future Improvements
 
 - Multi-agent architecture with specialized AI agents
 - Live AIS vessel tracking integration
@@ -376,7 +376,7 @@ Originally used a single loading state for both news and weather. This caused we
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 **Meshwa Verma**
 
