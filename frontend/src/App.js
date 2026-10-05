@@ -6,7 +6,7 @@ import RiskFeed from './components/RiskFeed';
 import WeatherAlerts from './components/WeatherAlerts';
 import ShipmentTracker from './components/ShipmentTracker';
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://riskradar-y8uz.onrender.com';
 
 function App() {
   const [risks, setRisks] = useState([]);
